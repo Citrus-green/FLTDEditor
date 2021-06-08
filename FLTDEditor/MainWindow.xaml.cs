@@ -156,5 +156,29 @@ namespace FLTDEditor
         {
 
         }
+
+        private void assignList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            rootNodeList.Items.Clear();
+            constraintList.Items.Clear();
+
+            if (assignList.Items.IsEmpty == true)
+                return;
+
+            string[] rootNodeName = st.GetRootMode(assignList.SelectedIndex);
+            for (int i = 0; i < rootNodeName.Length; i++)
+                rootNodeList.Items.Add(rootNodeName[i]);
+            string[] constraintName = st.GetConstraintList(assignList.SelectedIndex);
+            for (int i = 0; i < constraintName.Length; i++)
+                constraintList.Items.Add(constraintName[i]);
+        }
+
+        private void constraintList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (constraintList.Items.IsEmpty == true)
+                return;
+
+        }
     }
 }
