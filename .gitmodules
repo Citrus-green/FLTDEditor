@@ -1,0 +1,3 @@
+[submodule "FLTD-lib"]
+	path = FLTD-lib
+	url = https://github.com/Citrus-green/FLTD-lib.git
