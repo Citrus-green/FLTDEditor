@@ -128,7 +128,7 @@ namespace FLTDEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        public FltdNGS st;
+        public FLTD st;
         public MainWindow()
         {
             InitializeComponent();
@@ -139,7 +139,7 @@ namespace FLTDEditor
         public void Update() {
             if (FileIODialogHelper.filePath != null)
             {
-                st = new FltdNGS();
+                st = new FLTD();
                 st.loadFile(FileIODialogHelper.filePath);
                 string[] str = st.GetAssignList();
                 for (int i=0;i<str.Length;i++)
