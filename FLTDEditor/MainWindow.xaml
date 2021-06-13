@@ -19,6 +19,9 @@
             <MenuItem Header="Edit(_E)" Height="20" Width="54" Click="MenuItem_Click">
                 <CheckBox Content="Read only on start up" Height="20" Width="142"/>
             </MenuItem>
+            <MenuItem Header="Debug" Height="20" Width="54" Click="MenuItem_Click">
+                <MenuItem Header="Dump data" HorizontalAlignment="Left" Height="20" Width="208" Click="Dump_data_click"/>
+            </MenuItem>
 
             <CheckBox Content="Read Only(_R)" Height="20" Width="75"/>
         </Menu>

@@ -17,7 +17,7 @@ using FLTD_lib;
 
 namespace FLTDEditor
 {
-    class FileIODialogHelper
+    internal class FileIODialogHelper
     {
         public static FileIODialogHelper instance;
         public static String filePath;
@@ -46,7 +46,7 @@ namespace FLTDEditor
             Application.Current.Shutdown();
         }
     }
-    class ShortcutCmd : ICommand
+    internal class ShortcutCmd : ICommand
     {
         private Action<Object> excute;
         private Func<Object, bool> canExcute;
@@ -151,6 +151,11 @@ namespace FLTDEditor
         {
 
         }
+        private void Dump_data_click(object sender, RoutedEventArgs e)
+        {
+            if(st!=null)
+            st.DumpData(FileIODialogHelper.filePath+".txt");
+        }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
@@ -166,7 +171,7 @@ namespace FLTDEditor
             if (assignList.Items.IsEmpty == true)
                 return;
 
-            string[] rootNodeName = st.GetRootMode(assignList.SelectedIndex);
+            string[] rootNodeName = st.GetRootNode(assignList.SelectedIndex);
             for (int i = 0; i < rootNodeName.Length; i++)
                 rootNodeList.Items.Add(rootNodeName[i]);
             string[] constraintName = st.GetConstraintList(assignList.SelectedIndex);
