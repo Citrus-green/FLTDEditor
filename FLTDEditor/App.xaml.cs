@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using FLTD_lib;
 
 namespace FLTDEditor
 {
@@ -13,5 +9,19 @@ namespace FLTDEditor
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            if (e.Args.Length == 2)
+            {
+                if ((string)e.Args[0] == "-dump")
+                {
+                    FLTD st = new FLTD();
+                    st.LoadFile((string)e.Args[1]);
+                    st.DumpData((string)e.Args[1] + ".txt");
+                }
+                System.Windows.Application.Current.Shutdown();
+            }
+        }
     }
+
 }

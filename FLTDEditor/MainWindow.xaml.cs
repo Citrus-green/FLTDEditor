@@ -140,7 +140,7 @@ namespace FLTDEditor
             if (FileIODialogHelper.filePath != null)
             {
                 st = new FLTD();
-                st.loadFile(FileIODialogHelper.filePath);
+                st.LoadFile(FileIODialogHelper.filePath);
                 string[] str = st.GetAssignList();
                 for (int i=0;i<str.Length;i++)
                 assignList.Items.Add(str[i]);
