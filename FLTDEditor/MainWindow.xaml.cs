@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using FLTD_lib;
 
@@ -19,14 +9,24 @@ namespace FLTDEditor
 {
     internal class FileIODialogHelper
     {
+
+        public static FLTD st;
         public static FileIODialogHelper instance;
-        public static String filePath;
+        private String filePath;
         public void fileOpen() {
             var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.Filter = "*.fltd|*.fltd";
             if (dialog.ShowDialog() == true)
             {
                 filePath = dialog.FileName;
+
+                st = new FLTD();
+                if (st.LoadFile(filePath) == false)
+                {
+                    MessageBox.Show($"Can't open file : {filePath}", "Error");
+                    st = null;
+                }
+                else
                 ((MainWindow)Application.Current.MainWindow).Update();
             }
         }
@@ -39,11 +39,19 @@ namespace FLTDEditor
                 fileSave();
             }
         }
-        public void fileSave() { 
-        
+        public void fileSave() {
+            if (st.SaveFile(filePath, false) == false)
+            {
+                MessageBox.Show($"Can't open file : {filePath}", "Error");
+
+            }
         }
         public void fileClose() {
             Application.Current.Shutdown();
+        }
+        public void Dump() {
+            if (st != null)
+                st.DumpData(filePath + ".txt");
         }
     }
     internal class ShortcutCmd : ICommand
@@ -128,7 +136,6 @@ namespace FLTDEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        public FLTD st;
         public MainWindow()
         {
             InitializeComponent();
@@ -137,11 +144,12 @@ namespace FLTDEditor
         }
 
         public void Update() {
-            if (FileIODialogHelper.filePath != null)
+            if (FileIODialogHelper.st != null)
             {
-                st = new FLTD();
-                st.LoadFile(FileIODialogHelper.filePath);
-                string[] str = st.GetAssignList();
+                assignList.Items.Clear();
+                rootNodeList.Items.Clear();
+                constraintList.Items.Clear();
+                string[] str = FileIODialogHelper.st.GetAssignList();
                 for (int i=0;i<str.Length;i++)
                 assignList.Items.Add(str[i]);
             }
@@ -153,8 +161,7 @@ namespace FLTDEditor
         }
         private void Dump_data_click(object sender, RoutedEventArgs e)
         {
-            if(st!=null)
-            st.DumpData(FileIODialogHelper.filePath+".txt");
+            FileIODialogHelper.instance.Dump();
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -171,10 +178,10 @@ namespace FLTDEditor
             if (assignList.Items.IsEmpty == true)
                 return;
 
-            string[] rootNodeName = st.GetRootNode(assignList.SelectedIndex);
+            string[] rootNodeName = FileIODialogHelper.st.GetRootNode(assignList.SelectedIndex);
             for (int i = 0; i < rootNodeName.Length; i++)
                 rootNodeList.Items.Add(rootNodeName[i]);
-            string[] constraintName = st.GetConstraintList(assignList.SelectedIndex);
+            string[] constraintName = FileIODialogHelper.st.GetConstraintList(assignList.SelectedIndex);
             for (int i = 0; i < constraintName.Length; i++)
                 constraintList.Items.Add(constraintName[i]);
         }
