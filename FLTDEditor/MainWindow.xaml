@@ -67,19 +67,19 @@
                     <Grid Background="#FFFFFF" HorizontalAlignment="Left" Height="356" Margin="576,0,0,0" VerticalAlignment="Top" Width="187">
                         <Label Content="Parameter" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="Range" VerticalAlignment="Top"/>
-                        <Slider HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Width="167"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="Position X" VerticalAlignment="Top"/>
-                        <Slider HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" Width="167"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,109,0,0" TextWrapping="Wrap" Text="Position Y" VerticalAlignment="Top"/>
-                        <Slider HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Width="167"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,148,0,0" TextWrapping="Wrap" Text="Position Z" VerticalAlignment="Top"/>
-                        <Slider HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top" Width="167"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,182,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Direct X"/>
-                        <Slider Margin="10,198,10,140"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,221,0,0" TextWrapping="Wrap" Text="Direct Y" VerticalAlignment="Top"/>
-                        <Slider HorizontalAlignment="Left" Margin="10,237,0,0" VerticalAlignment="Top" Width="167"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,260,0,0" TextWrapping="Wrap" Text="Direct Z" VerticalAlignment="Top"/>
-                        <Slider HorizontalAlignment="Left" Margin="10,276,0,0" VerticalAlignment="Top" Width="167"/>
+                        <TextBox x:Name="range" HorizontalAlignment="Left" Height="23" Margin="85,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
+                        <TextBox x:Name="posX" HorizontalAlignment="Left" Height="23" Margin="85,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
+                        <TextBox x:Name="posY" HorizontalAlignment="Left" Height="23" Margin="85,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
+                        <TextBox x:Name="posZ" HorizontalAlignment="Left" Height="23" Margin="85,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
+                        <TextBox x:Name="vecX" HorizontalAlignment="Left" Height="23" Margin="85,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
+                        <TextBox x:Name="vecY" HorizontalAlignment="Left" Height="23" Margin="85,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
+                        <TextBox x:Name="vecZ" HorizontalAlignment="Left" Height="23" Margin="85,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
                     </Grid>
 
                 </Grid>

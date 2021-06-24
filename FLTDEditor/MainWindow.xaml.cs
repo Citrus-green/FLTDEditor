@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,7 +24,7 @@ namespace FLTDEditor
                 st = new FLTD();
                 if (st.LoadFile(filePath) == false)
                 {
-                    MessageBox.Show($"Can't open file : {filePath}", "Error");
+                    MessageBox.Show($"Can't read file : {filePath}", "Error");
                     st = null;
                 }
                 else
@@ -40,10 +41,13 @@ namespace FLTDEditor
             }
         }
         public void fileSave() {
-            if (st.SaveFile(filePath, false) == false)
+            if (st != null)
             {
-                MessageBox.Show($"Can't open file : {filePath}", "Error");
+                if (st.SaveFile(filePath, false) == false)
+                {
+                    MessageBox.Show($"Can't write file : {filePath}", "Error");
 
+                }
             }
         }
         public void fileClose() {
@@ -191,6 +195,25 @@ namespace FLTDEditor
             if (constraintList.Items.IsEmpty == true)
                 return;
 
+            float[] f = FileIODialogHelper.st.GetConstrateParam(assignList.SelectedIndex,(string)constraintList.SelectedItem);
+            if (f.Length != 0)
+            {
+                range.Text = f[0].ToString();
+                posX.Text = f[1].ToString();
+                posY.Text = f[2].ToString();
+                posZ.Text = f[3].ToString();
+            }
+        }
+
+        private void PreventTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (((TextBox)sender).Text.Length == 0 && e.Text == "-")
+            {
+                return;
+            }
+
+            Regex regex = new Regex("[^0-9.]");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
