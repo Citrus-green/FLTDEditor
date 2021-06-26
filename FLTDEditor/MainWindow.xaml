@@ -16,18 +16,18 @@
                 <Separator/>
                 <MenuItem Header="Close"  Command="{Binding closeFileCmd}" InputGestureText="Ctrl+F4" HorizontalAlignment="Left" Height="20" Width="208"/>
             </MenuItem>
-            <MenuItem Header="Edit(_E)" Height="20" Width="54" Click="MenuItem_Click">
+            <MenuItem Header="Edit(_E)" Height="20" Width="54" Click="MenuItem_Click" IsEnabled="False">
                 <CheckBox Content="Read only on start up" Height="20" Width="142"/>
             </MenuItem>
             <MenuItem Header="Debug" Height="20" Width="54" Click="MenuItem_Click">
                 <MenuItem Header="Dump data" HorizontalAlignment="Left" Height="20" Width="208" Click="Dump_data_click"/>
             </MenuItem>
 
-            <CheckBox Content="Read Only(_R)" Height="20" Width="75"/>
+            <CheckBox x:Name="readOnly" Content="Read Only(_R)" Height="20" Width="75" IsChecked="True"/>
         </Menu>
         <TabControl HorizontalAlignment="Left" Height="384" Margin="10,25,0,0" VerticalAlignment="Top" Width="769">
             <TabItem Header="Assain">
-                <Grid Background="#FFE5E5E5">
+                <Grid x:Name="assignTab" Background="#FFE5E5E5" IsEnabled="False">
                     <Grid Background="#FFFFFF" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="187">
                         <Label Content="Assign List" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
                         <ListBox x:Name="assignList" Margin="9,26,9,9" IsSynchronizedWithCurrentItem="False" SelectionChanged="assignList_SelectionChanged"/>
@@ -43,9 +43,9 @@
                         <ListBox x:Name="constraintList" HorizontalAlignment="Left" Height="171" Margin="10,175,0,0" VerticalAlignment="Top" Width="167" SelectionChanged="constraintList_SelectionChanged"/>
                     </Grid>
 
-                    <Grid Background="#FFFFFF" HorizontalAlignment="Left" Height="356" Margin="384,0,0,0" VerticalAlignment="Top" Width="187">
+                    <Grid Background="#FFFFFF" HorizontalAlignment="Left" Height="356" Margin="384,0,0,0" VerticalAlignment="Top" Width="187" IsEnabled="False">
                         <Label Content="Constraint  Limiter" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,26,0,0" TextWrapping="Wrap" Text="To Assign" VerticalAlignment="Top"/>
+                        <Label HorizontalAlignment="Left" Margin="10,26,0,0" Content="To Assign" VerticalAlignment="Top"/>
                         <ComboBox HorizontalAlignment="Left" Margin="65,26,0,0" VerticalAlignment="Top" Width="112"/>
                         <Grid>
                             <RadioButton Content="affected All Link" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" GroupName="affect"/>
@@ -61,30 +61,35 @@
                         <CheckBox Content="X" HorizontalAlignment="Left" Margin="10,309,0,0" VerticalAlignment="Top"/>
                         <CheckBox Content="Collision pushes the link" HorizontalAlignment="Left" Margin="10,329,0,0" VerticalAlignment="Top"/>
                         <CheckBox Content="Y" HorizontalAlignment="Left" Margin="42,309,0,0" VerticalAlignment="Top"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,291,0,0" TextWrapping="Wrap" Text="Reverse" VerticalAlignment="Top"/>
+                        <Label HorizontalAlignment="Left" Margin="10,291,0,0" Content="Reverse" VerticalAlignment="Top"/>
                         <CheckBox Content="Z" HorizontalAlignment="Left" Margin="74,309,0,0" VerticalAlignment="Top"/>
                     </Grid>
                     <Grid Background="#FFFFFF" HorizontalAlignment="Left" Height="356" Margin="576,0,0,0" VerticalAlignment="Top" Width="187">
                         <Label Content="Parameter" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="Range" VerticalAlignment="Top"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="Position X" VerticalAlignment="Top"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,109,0,0" TextWrapping="Wrap" Text="Position Y" VerticalAlignment="Top"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,148,0,0" TextWrapping="Wrap" Text="Position Z" VerticalAlignment="Top"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,182,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Direct X"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,221,0,0" TextWrapping="Wrap" Text="Direct Y" VerticalAlignment="Top"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,260,0,0" TextWrapping="Wrap" Text="Direct Z" VerticalAlignment="Top"/>
-                        <TextBox x:Name="range" HorizontalAlignment="Left" Height="23" Margin="85,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
-                        <TextBox x:Name="posX" HorizontalAlignment="Left" Height="23" Margin="85,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
-                        <TextBox x:Name="posY" HorizontalAlignment="Left" Height="23" Margin="85,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
-                        <TextBox x:Name="posZ" HorizontalAlignment="Left" Height="23" Margin="85,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
-                        <TextBox x:Name="vecX" HorizontalAlignment="Left" Height="23" Margin="85,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
-                        <TextBox x:Name="vecY" HorizontalAlignment="Left" Height="23" Margin="85,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
-                        <TextBox x:Name="vecZ" HorizontalAlignment="Left" Height="23" Margin="85,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" PreviewTextInput="PreventTextInput"/>
+                        <Label HorizontalAlignment="Left" Margin="10,31,0,0" Content="Range" VerticalAlignment="Top"/>
+                        <Label HorizontalAlignment="Left" Margin="10,59,0,0" Content="Position X" VerticalAlignment="Top"/>
+                        <Label HorizontalAlignment="Left" Margin="10,87,0,0" Content="Position Y" VerticalAlignment="Top"/>
+                        <Label HorizontalAlignment="Left" Margin="10,116,0,0" Content="Position Z" VerticalAlignment="Top"/>
+                        <TextBox x:Name="range" HorizontalAlignment="Left" Height="23" Margin="85,31,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Width="92" PreviewKeyDown="PriventInput" PreviewTextInput="PreventTextInput" LostFocus="Param_LostFrocus"/>
+                        <TextBox x:Name="posX" HorizontalAlignment="Left" Height="23" Margin="85,59,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="92"  PreviewKeyDown="PriventInput" PreviewTextInput="PreventTextInput" LostFocus="Param_LostFrocus"/>
+                        <TextBox x:Name="posY" HorizontalAlignment="Left" Height="23" Margin="85,87,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="92"  PreviewKeyDown="PriventInput" PreviewTextInput="PreventTextInput" LostFocus="Param_LostFrocus"/>
+                        <TextBox x:Name="posZ" HorizontalAlignment="Left" Height="23" Margin="85,116,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="92"  PreviewKeyDown="PriventInput" PreviewTextInput="PreventTextInput" LostFocus="Param_LostFrocus"/>
+                        <GroupBox x:Name="direct" HorizontalAlignment="Left" Height="111" Margin="10,168,0,0" VerticalAlignment="Top" Width="167" Header="Direct">
+                            <Grid>
+                                <Label HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Content="Vector X"/>
+                                <Label HorizontalAlignment="Left" Margin="10,31,0,0" Content="Vector Y" VerticalAlignment="Top"/>
+                                <Label HorizontalAlignment="Left" Margin="10,59,0,0" Content="Vector Z" VerticalAlignment="Top"/>
+                                <TextBox x:Name="vecX" HorizontalAlignment="Left" Height="23" Margin="63,3,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="92"  PreviewKeyDown="PriventInput" PreviewTextInput="PreventTextInput"/>
+                                <TextBox x:Name="vecY" HorizontalAlignment="Left" Height="23" Margin="63,31,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="92"  PreviewKeyDown="PriventInput" PreviewTextInput="PreventTextInput"/>
+                                <TextBox x:Name="vecZ" HorizontalAlignment="Left" Height="23" Margin="63,59,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="92"  PreviewKeyDown="PriventInput" PreviewTextInput="PreventTextInput"/>
+                            </Grid>
+                        </GroupBox>
+                        <ComboBox x:Name="constrateBones" HorizontalAlignment="Left" Margin="85,4,0,0" VerticalAlignment="Top" Width="92" SelectionChanged="constrateBones_SelectionChanged"/>
                     </Grid>
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Cross" Height="22" VerticalAlignment="Bottom">
+            <TabItem Header="Cross" Height="22" VerticalAlignment="Bottom" IsEnabled="False">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>

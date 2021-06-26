@@ -156,6 +156,8 @@ namespace FLTDEditor
                 string[] str = FileIODialogHelper.st.GetAssignList();
                 for (int i=0;i<str.Length;i++)
                 assignList.Items.Add(str[i]);
+                assignList.SelectedIndex = 0;
+                assignTab.IsEnabled = true;
             }
         }
 
@@ -183,28 +185,43 @@ namespace FLTDEditor
                 return;
 
             string[] rootNodeName = FileIODialogHelper.st.GetRootNode(assignList.SelectedIndex);
-            for (int i = 0; i < rootNodeName.Length; i++)
-                rootNodeList.Items.Add(rootNodeName[i]);
+            foreach (string nodeName in  rootNodeName)
+                rootNodeList.Items.Add(nodeName);
             string[] constraintName = FileIODialogHelper.st.GetConstraintList(assignList.SelectedIndex);
-            for (int i = 0; i < constraintName.Length; i++)
-                constraintList.Items.Add(constraintName[i]);
+            foreach (string constraint in constraintName)
+                constraintList.Items.Add(constraint);
+
+            constraintList.SelectedIndex = 0;
         }
 
         private void constraintList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            constrateBones.Items.Clear();
             if (constraintList.Items.IsEmpty == true)
                 return;
 
-            float[] f = FileIODialogHelper.st.GetConstrateParam(assignList.SelectedIndex,(string)constraintList.SelectedItem);
-            if (f.Length != 0)
+            string[] str = FileIODialogHelper.st.GetConstrateBones(assignList.SelectedIndex,constraintList.SelectedIndex);
+            foreach(string name in str)
             {
-                range.Text = f[0].ToString();
-                posX.Text = f[1].ToString();
-                posY.Text = f[2].ToString();
-                posZ.Text = f[3].ToString();
+                constrateBones.Items.Add(name);
             }
+            constrateBones.SelectedIndex = 0;
         }
-
+        private void constrateBones_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            float[] f = FileIODialogHelper.st.GetConstrateParam(assignList.SelectedIndex, constraintList.SelectedIndex, constrateBones.SelectedIndex);
+            switch (FileIODialogHelper.st.GetConstrateFormat(assignList.SelectedIndex, constraintList.SelectedIndex))
+            {
+                case 7:
+                    direct.IsEnabled = false;
+                    range.Text = f[0].ToString();
+                    posX.Text = f[1].ToString();
+                    posY.Text = f[2].ToString();
+                    posZ.Text = f[3].ToString();
+                    break;
+            }
+        
+        }
         private void PreventTextInput(object sender, TextCompositionEventArgs e)
         {
             if (((TextBox)sender).Text.Length == 0 && e.Text == "-")
@@ -214,6 +231,31 @@ namespace FLTDEditor
 
             Regex regex = new Regex("[^0-9.]");
             e.Handled = regex.IsMatch(e.Text);
+        }
+        private void Param_LostFrocus(object sender, Object e) {
+            if (((TextBox)sender).Text.Length == 0)
+                ((TextBox)sender).Text = "0";
+
+            float[] f;
+            switch (FileIODialogHelper.st.GetConstrateFormat(assignList.SelectedIndex, constraintList.SelectedIndex))
+            {
+                case 7:
+                    f = new float[4];
+                    f[0]= Convert.ToSingle(range.Text);
+                    f[1] = Convert.ToSingle(posX.Text);
+                    f[2] = Convert.ToSingle(posY.Text);
+                    f[3] = Convert.ToSingle(posZ.Text);
+                    FileIODialogHelper.st.SetConstrateParam(assignList.SelectedIndex, constraintList.SelectedIndex, constrateBones.SelectedIndex, f);
+                    break;
+            }
+        }
+
+        private void PriventInput(object sender, KeyEventArgs e)
+        {
+            if (readOnly.IsChecked == true)
+            {
+                e.Handled = true;
+            }
         }
     }
 }
