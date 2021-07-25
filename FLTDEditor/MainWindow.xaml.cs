@@ -14,7 +14,8 @@ namespace FLTDEditor
         public static FLTD st;
         public static FileIODialogHelper instance;
         private String filePath;
-        public void fileOpen() {
+        public void fileOpen()
+        {
             var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.Filter = "*.fltd|*.fltd";
             if (dialog.ShowDialog() == true)
@@ -28,10 +29,11 @@ namespace FLTDEditor
                     st = null;
                 }
                 else
-                ((MainWindow)Application.Current.MainWindow).Update();
+                    ((MainWindow)Application.Current.MainWindow).Update();
             }
         }
-        public void fileSaveAs() {
+        public void fileSaveAs()
+        {
             var dialog = new Microsoft.Win32.SaveFileDialog();
             dialog.Filter = "*.fltd|*.fltd";
             if (dialog.ShowDialog() == true)
@@ -40,7 +42,8 @@ namespace FLTDEditor
                 fileSave();
             }
         }
-        public void fileSave() {
+        public void fileSave()
+        {
             if (st != null)
             {
                 if (st.SaveFile(filePath, false) == false)
@@ -50,10 +53,12 @@ namespace FLTDEditor
                 }
             }
         }
-        public void fileClose() {
+        public void fileClose()
+        {
             Application.Current.Shutdown();
         }
-        public void Dump() {
+        public void Dump()
+        {
             if (st != null)
                 st.DumpData(filePath + ".txt");
         }
@@ -135,9 +140,6 @@ namespace FLTDEditor
         }
     }
 
-    /// <summary>
-    /// MainWindow.xaml の相互作用ロジック
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -147,15 +149,16 @@ namespace FLTDEditor
             DataContext = new MainWindowViewModel();
         }
 
-        public void Update() {
+        public void Update()
+        {
             if (FileIODialogHelper.st != null)
             {
                 assignList.Items.Clear();
                 rootNodeList.Items.Clear();
                 constraintList.Items.Clear();
                 string[] str = FileIODialogHelper.st.GetAssignList();
-                for (int i=0;i<str.Length;i++)
-                assignList.Items.Add(str[i]);
+                for (int i = 0; i < str.Length; i++)
+                    assignList.Items.Add(str[i]);
                 assignList.SelectedIndex = 0;
                 assignTab.IsEnabled = true;
             }
@@ -185,7 +188,7 @@ namespace FLTDEditor
                 return;
 
             string[] rootNodeName = FileIODialogHelper.st.GetRootNode(assignList.SelectedIndex);
-            foreach (string nodeName in  rootNodeName)
+            foreach (string nodeName in rootNodeName)
                 rootNodeList.Items.Add(nodeName);
             string[] constraintName = FileIODialogHelper.st.GetConstraintList(assignList.SelectedIndex);
             foreach (string constraint in constraintName)
@@ -200,8 +203,8 @@ namespace FLTDEditor
             if (constraintList.Items.IsEmpty == true)
                 return;
 
-            string[] str = FileIODialogHelper.st.GetConstrateBones(assignList.SelectedIndex,constraintList.SelectedIndex);
-            foreach(string name in str)
+            string[] str = FileIODialogHelper.st.GetConstrateBones(assignList.SelectedIndex, constraintList.SelectedIndex);
+            foreach (string name in str)
             {
                 constrateBones.Items.Add(name);
             }
@@ -209,9 +212,36 @@ namespace FLTDEditor
         }
         private void constrateBones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (assignList.SelectedIndex < 0 || constraintList.SelectedIndex < 0 || constrateBones.SelectedIndex < 0)
+                return;
             float[] f = FileIODialogHelper.st.GetConstrateParam(assignList.SelectedIndex, constraintList.SelectedIndex, constrateBones.SelectedIndex);
             switch (FileIODialogHelper.st.GetConstrateFormat(assignList.SelectedIndex, constraintList.SelectedIndex))
             {
+                case 0:
+                    direct.IsEnabled = false;
+                    range.Text = f[0].ToString();
+                    posX.Text = f[1].ToString();
+                    posY.Text = f[2].ToString();
+                    break;
+                case 1:
+                    direct.IsEnabled = false;
+                    range.Text = f[0].ToString();
+                    posX.Text = f[1].ToString();
+                    posY.Text = f[2].ToString();
+                    break;
+                case 3:
+                    direct.IsEnabled = false;
+                    range.Text = f[0].ToString();
+                    posX.Text = f[1].ToString();
+                    posY.Text = f[2].ToString();
+                    posZ.Text = f[3].ToString();
+                    break;
+                case 5:
+                    direct.IsEnabled = false;
+                    range.Text = f[0].ToString();
+                    posX.Text = f[1].ToString();
+                    posY.Text = f[2].ToString();
+                    break;
                 case 7:
                     direct.IsEnabled = false;
                     range.Text = f[0].ToString();
@@ -220,7 +250,7 @@ namespace FLTDEditor
                     posZ.Text = f[3].ToString();
                     break;
             }
-        
+
         }
         private void PreventTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -232,7 +262,8 @@ namespace FLTDEditor
             Regex regex = new Regex("[^0-9.]");
             e.Handled = regex.IsMatch(e.Text);
         }
-        private void Param_LostFrocus(object sender, Object e) {
+        private void Param_LostFrocus(object sender, Object e)
+        {
             if (((TextBox)sender).Text.Length == 0)
                 ((TextBox)sender).Text = "0";
 
@@ -241,11 +272,11 @@ namespace FLTDEditor
             {
                 case 7:
                     f = new float[4];
-                    f[0]= Convert.ToSingle(range.Text);
+                    f[0] = Convert.ToSingle(range.Text);
                     f[1] = Convert.ToSingle(posX.Text);
                     f[2] = Convert.ToSingle(posY.Text);
                     f[3] = Convert.ToSingle(posZ.Text);
-                    FileIODialogHelper.st.SetConstrateParam(assignList.SelectedIndex, constraintList.SelectedIndex, constrateBones.SelectedIndex, f);
+                    FileIODialogHelper.st.SetConstrateParam(assignList.SelectedIndex, constraintList.SelectedIndex,f, constrateBones.SelectedIndex);
                     break;
             }
         }
